@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { InheritanceTooltip } from "./InheritanceTooltip";
 import { Abi, AbiFunction } from "abitype";
-import { Address, TransactionReceipt } from "viem";
+import { Address, TransactionReceipt, parseEther } from "viem";
 import { useAccount, useConfig, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import {
   ContractInput,
@@ -17,6 +17,8 @@ import { IntegerInput } from "~~/components/scaffold-eth";
 import { useTransactor } from "~~/hooks/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { simulateContractWriteAndNotifyError } from "~~/utils/scaffold-eth/contract";
+
+// import ethers from "ethers"; // Uncomment if you need ethers, otherwise remove this line
 
 type WriteOnlyFunctionFormProps = {
   abi: Abi;
@@ -52,7 +54,7 @@ export const WriteOnlyFunctionForm = ({
           functionName: abiFunction.name,
           abi: abi,
           args: getParsedContractFunctionArgs(form),
-          value: BigInt(txValue),
+          value: parseEther(txValue),
         };
         await simulateContractWriteAndNotifyError({ wagmiConfig, writeContractParams: writeContractObj });
 

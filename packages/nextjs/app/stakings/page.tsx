@@ -8,7 +8,7 @@ import { useScaffoldEventHistory } from "~~/hooks/scaffold-eth";
 const Stakings: NextPage = () => {
   const { data: stakeEvents, isLoading } = useScaffoldEventHistory({
     contractName: "Staker",
-    eventName: "Stake",
+    eventName: "Staked",
   });
 
   if (isLoading)
@@ -44,9 +44,9 @@ const Stakings: NextPage = () => {
                 return (
                   <tr key={index}>
                     <td>
-                      <Address address={event.args?.[0]} />
+                      <Address address={event.args?.user} />
                     </td>
-                    <td>{formatEther(event.args?.[1] || 0n)} ETH</td>
+                    <td>{formatEther(event.args?.amount || 0n)} ETH</td>
                   </tr>
                 );
               })
